@@ -13,5 +13,3 @@ Then, drag the downloaded file into the UI away you go. You can choose to exclud
 lists using the check boxes at the top. They are not included in the final output.
 
 For public boards you can paste the URL into the box and it will load the json automatically.
-
-Alternatively, you can click <a href="javascript:(function(){var loc=location.href;loc=loc.replace('trello.com','murolem.github.io/trello-to-pdf'); window.location.assign(loc)})()">this bookmarklet</a> (drag it to your bookmarks bar!) on any public trello page to instantly get the document for it.
