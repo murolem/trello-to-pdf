@@ -2,7 +2,9 @@
 
 Renders trello boards as easily-printable webpages.
 
-Forked from the [brilliant gist](https://gist.github.com/mathiasrw/8710615) by @mathiasrw. Hosted on netlify.
+[>Available here on Github Pages<](https://murolem.github.io/trello-to-pdf/)
+
+Original repo by @arlyon, based on the [brilliant gist](https://gist.github.com/mathiasrw/8710615) by @mathiasrw.
 
 ### Usage
 
@@ -12,29 +14,4 @@ lists using the check boxes at the top. They are not included in the final outpu
 
 For public boards you can paste the URL into the box and it will load the json automatically.
 
-Alternatively, you can click <a href="javascript:(function(){var loc=location.href;loc=loc.replace('trello.com','trello.arlyon.dev'); window.location.assign(loc)})()">this bookmarklet</a> (drag it to your bookmarks bar!) on any public trello page to instantly get the document for it.
-
-### Development
-
-PRs are welcome. This project is formatted with the default
-settings from prettier.
-
-```bash
-prettier --write .
-```
-
-Running the app requires that you have an SPA-compatible
-server serving the files otherwise loading boards
-directly won't work. Luckily there is a handy docker container that you can use.
-
-```bash
-# optionally build
-docker build . -t arlyon/nginx-spa
-docker run -it -p 8080:80 -v $(pwd):/app arlyon/nginx-spa
-```
-
-Then you can open it up at `localhost:8080`.
-
-### Analytics
-
-I am personally interested in how many people are using this site, and have decided to add plausible.io, a privacy-respecting analytics service, so that I know when it is down and where traffic comes from. Your data is not used for advertising, and no identifiable information is kept, which is why we can still deliver a cookieless experience. If you have any problems with this, please open an issue.
+Alternatively, you can click <a href="javascript:(function(){var loc=location.href;loc=loc.replace('trello.com','murolem.github.io/trello-to-pdf'); window.location.assign(loc)})()">this bookmarklet</a> (drag it to your bookmarks bar!) on any public trello page to instantly get the document for it.
