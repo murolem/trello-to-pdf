@@ -142,6 +142,23 @@
                 border-bottom: 1px solid #026aa7;
                 margin: 0 0.5em;
             }
+
+            .checklist {
+                list-style-type:none;
+            }
+
+            .checklist-title {
+                font-size: 1.15rem;
+            }
+
+            .checklist-item > label > .checkbox {
+                margin-right: 0.3ch;
+                vertical-align: middle;
+            }
+
+            .checklist-item > label > p {
+                display: inline;
+            }
         </style>
         <style type="text/css" media="print">
             section.selector {
@@ -216,7 +233,19 @@
                 <div class="card-body">
                     <h3 class="card-title">{{name}}</h3>
                     {{#desc}}{{{desc}}}{{/desc}} {{^desc}}<span style="color: var(--gray)">No Description</span
-                    >{{/desc}} {{#actions.length}}
+                    >{{/desc}} {{#checklists.length}}
+                    <h6 class="divider">CHECKLISTS</h6>
+                    <div class="checklists">
+                        {{#checklists}}
+                        <ul class='checklist'>
+                            <h6 class='checklist-title'>{{title}}</h6>
+                            {{#items}}
+                                <li class='checklist-item'><label><input class='checkbox' type='checkbox' {{#checked}}checked{{/checked}} disabled>{{{text}}}</label></li>
+                            {{/items}}
+                        </ul>
+                        {{/checklists}} {{/checklists.length}}
+                    </div>
+                    {{#actions.length}}
                     <h6 class="divider">COMMENTS</h6>
                     <ul class="comments">
                         {{#actions}}
@@ -272,6 +301,7 @@
                         name: card.name,
                         desc: marked(card.desc),
                         actions: [],
+                        checklists: [],
                     };
 
                     if (!data.ref[card.idList]) {
@@ -279,6 +309,26 @@
                     }
 
                     data.ref[card.idList].cards.push(data.ref[card.id]);
+                }
+
+                for (checklist of trelloJson.checklists) {
+                    const matchingCard = data.ref[checklist.idCard];
+                    if (!matchingCard) continue;
+
+                    const items = checklist.checkItems
+                        .map((item) => ({
+                            text: marked(item.name),
+                            pos: item.pos,
+                            checked: item.state === "complete",
+                        }))
+                        .sort((e1, e2) => e1.pos - e2.pos);
+
+                    data.ref[checklist.id] = {
+                        title: checklist.name,
+                        items,
+                    };
+
+                    matchingCard.checklists.push(data.ref[checklist.id]);
                 }
 
                 for (action of trelloJson.actions) {
@@ -332,7 +382,7 @@
                         try {
                             const data = loadData(reader.result);
                             showBoard(data);
-                            history.pushState(data, data.name, `/b/${data.shortLink}`);
+                            // history.pushState(data, data.name, `/b/${data.shortLink}`);
                         } catch (e) {
                             errorBox.innerHTML = e.message;
                             errorBox.className = "visible";
@@ -351,7 +401,7 @@
                 if (id === null) return showError("couldn't parse the url");
                 try {
                     const data = await loadBoardId(id[1]);
-                    history.pushState(data, data.name, `/b/${data.shortLink}`);
+                    // history.pushState(data, data.name, `/b/${data.shortLink}`);
                 } catch (e) {
                     showError(e);
                 }
@@ -426,7 +476,7 @@
                 if (id !== null) {
                     try {
                         const data = await loadBoardId(id[1]);
-                        history.replaceState(data, data.name, `/b/${data.shortLink}`);
+                        // history.replaceState(data, data.name, `/b/${data.shortLink}`);
                     } catch (e) {
                         showError(e);
                     }
